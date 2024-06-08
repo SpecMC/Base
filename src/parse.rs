@@ -39,7 +39,7 @@ where
 {
     /// Parse a list of tokens into an object, consuming the tokens as needed.
     /// The token list is consumed in reverse order.
-    /// If this fails, it is not guaranteed that any tokens haven't been consumed.
+    /// If this fails, it is **not** guaranteed that no tokens have been consumed.
     fn parse(tokens: &mut Vec<String>) -> Result<Self, ParseError>;
 }
 
