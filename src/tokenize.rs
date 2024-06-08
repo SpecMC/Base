@@ -41,5 +41,9 @@ pub fn tokenize(input: &str) -> Vec<String> {
         i += 1;
     }
 
+    if !current_token.is_empty() {
+        tokens.push(current_token);
+    }
+
     tokens
 }
