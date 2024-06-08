@@ -1,5 +1,7 @@
 //! Module for parsing tokens.
 
+use thiserror::Error;
+
 use crate::ensure;
 
 /// Ensure that the next tokens in the list match the given tokens.
@@ -22,7 +24,7 @@ macro_rules! ensure_tokens {
     };
 }
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, Error)]
 pub enum ParseError {
     #[error("Unexpected EOF")]
     EndOfFile,
