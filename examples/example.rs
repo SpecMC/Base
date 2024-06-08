@@ -1,11 +1,9 @@
-use specmc_base::parse::Parse;
+use specmc_base::{
+    parse::{Identifier, Literal, Parse},
+    tokenize::tokenize,
+};
 
 fn main() {
-    use specmc_base::{
-        parse::{Identifier, Literal},
-        tokenize::tokenize,
-    };
-
     let mut tokens = tokenize("true 42 123.0 \"string\" cool_identifier");
     tokens.reverse();
     let lit_bool = Literal::parse(&mut tokens).unwrap();
