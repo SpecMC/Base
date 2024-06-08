@@ -1,5 +1,5 @@
 # SpecMC Base
-A library with common code for parsing Minecraft specification files.
+A library with common code for parsing Minecraft specification.
 
 ## Examples
 ```rust

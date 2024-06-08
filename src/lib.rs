@@ -1,4 +1,4 @@
-//! A library with common code for parsing Minecraft specification files.
+//! A library with common code for parsing Minecraft specification.
 
 pub mod parse;
 pub mod tokenize;
