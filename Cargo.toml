@@ -1,6 +1,6 @@
 [package]
 name = "specmc-base"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "A library with common code for parsing Minecraft specification files."
 license = "MIT"
