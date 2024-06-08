@@ -48,41 +48,41 @@ where
 /// The identifier must not start with a number.
 #[derive(Debug)]
 pub struct Identifier {
-    inner: String,
+    pub inner: String,
 }
 impl Parse for Identifier {
     fn parse(tokens: &mut Vec<String>) -> Result<Self, ParseError> {
         ensure!(!tokens.is_empty(), ParseError::EndOfFile);
-        let value: String = tokens.pop().unwrap();
+        let inner: String = tokens.pop().unwrap();
 
         ensure!(
-            !value.is_empty(),
+            !inner.is_empty(),
             ParseError::InvalidToken {
-                token: value,
+                token: inner,
                 error: "Empty identifier".to_string()
             }
         );
 
-        let mut chars: std::str::Chars = value.chars();
+        let mut chars: std::str::Chars = inner.chars();
         ensure!(
             chars
                 .next()
                 .map(|c| c.is_ascii_alphabetic() || c == '_')
                 .unwrap(),
             ParseError::InvalidToken {
-                token: value,
+                token: inner,
                 error: "Identifiers must not start with a number and can only contain letters, numbers, and underscores".to_string()
             }
         );
         ensure!(
             chars.all(|c| c.is_ascii_alphanumeric() || c == '_'),
             ParseError::InvalidToken {
-                token: value,
+                token: inner,
                 error: "Identifiers can only contain letters, numbers, and underscores".to_string()
             }
         );
 
-        Ok(Identifier { inner: value })
+        Ok(Identifier { inner })
     }
 }
 
