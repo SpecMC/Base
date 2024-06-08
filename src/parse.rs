@@ -116,6 +116,7 @@ impl Parse for Literal {
                 } else if let Ok(float) = token.parse::<f64>() {
                     Ok(Literal::Float(float))
                 } else {
+                    tokens.push(token.to_string());
                     Err(ParseError::InvalidToken {
                         token: token.to_string(),
                         error: "Invalid literal".to_string(),
