@@ -4,6 +4,7 @@ version = "0.1.2"
 authors = ["TheAIguy_"]
 edition = "2021"
 description = "A library with common code for parsing Minecraft specification."
+repository = "https://github.com/SpecMC/Base"
 license = "MIT"
 
 [dependencies]
