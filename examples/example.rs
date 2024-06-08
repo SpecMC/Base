@@ -4,12 +4,14 @@ use specmc_base::{
 };
 
 fn main() {
-    let mut tokens = tokenize("true 42 123.0 \"string\" cool_identifier");
+    let mut tokens: Vec<String> = tokenize("true 42 123.0 \"string\" cool_identifier");
     tokens.reverse();
-    let lit_bool = Literal::parse(&mut tokens).unwrap();
-    let lit_int = Literal::parse(&mut tokens).unwrap();
-    let lit_float = Literal::parse(&mut tokens).unwrap();
-    let lit_str = Literal::parse(&mut tokens).unwrap();
-    let ident = Identifier::parse(&mut tokens).unwrap();
+
+    let lit_bool: Literal = Literal::parse(&mut tokens).unwrap();
+    let lit_int: Literal = Literal::parse(&mut tokens).unwrap();
+    let lit_float: Literal = Literal::parse(&mut tokens).unwrap();
+    let lit_str: Literal = Literal::parse(&mut tokens).unwrap();
+    let ident: Identifier = Identifier::parse(&mut tokens).unwrap();
+
     println!("{lit_bool:?} {lit_int:?} {lit_float:?} {lit_str:?} {ident:?}");
 }
