@@ -11,9 +11,8 @@ use crate::ensure;
 macro_rules! ensure_tokens {
     ($tokens:ident, $($token:expr),+) => {
         $(
-            $crate::ensure!(!$tokens.is_empty(), $crate::parse::ParseError::EndOfFile);
             $crate::ensure!(
-                $tokens.last().unwrap() == $token,
+                $tokens.last().ok_or($crate::parse::ParseError::EndOfFile)? == $token,
                 $crate::parse::ParseError::InvalidToken {
                     token: $tokens.last().unwrap().clone(),
                     error: format!("Expected {}", $token),
@@ -52,8 +51,7 @@ pub struct Identifier {
 }
 impl Parse for Identifier {
     fn parse(tokens: &mut Vec<String>) -> Result<Self, ParseError> {
-        ensure!(!tokens.is_empty(), ParseError::EndOfFile);
-        let inner: String = tokens.pop().unwrap();
+        let inner: String = tokens.pop().ok_or(ParseError::EndOfFile)?;
 
         ensure!(
             !inner.is_empty(),
@@ -97,14 +95,12 @@ pub enum Literal {
 }
 impl Parse for Literal {
     fn parse(tokens: &mut Vec<String>) -> Result<Self, ParseError> {
-        ensure!(!tokens.is_empty(), ParseError::EndOfFile);
-        match tokens.pop().unwrap().as_str() {
+        match tokens.pop().ok_or(ParseError::EndOfFile)?.as_str() {
             "true" => Ok(Literal::Boolean(true)),
             "false" => Ok(Literal::Boolean(false)),
             "\"" => {
-                ensure!(!tokens.is_empty(), ParseError::EndOfFile);
                 let mut string: String = String::new();
-                while tokens.last().unwrap() != "\"" {
+                while tokens.last().ok_or(ParseError::EndOfFile)? != "\"" {
                     string += &tokens.pop().unwrap();
                 }
                 ensure_tokens!(tokens, "\"");
