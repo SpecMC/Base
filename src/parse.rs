@@ -45,7 +45,7 @@ where
 /// An identifier.
 /// The identifier must not be empty and can only contain letters, numbers, and underscores.
 /// The identifier must not start with a number.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Identifier {
     pub inner: String,
 }
@@ -86,7 +86,7 @@ impl Parse for Identifier {
 
 /// A literal value.
 /// This can be a boolean, integer, float, or string.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Literal {
     Boolean(bool),
     Integer(isize),
