@@ -13,18 +13,18 @@ macro_rules! ensure {
     };
 }
 
+#[macro_export]
+macro_rules! tokenize {
+    ($input:expr) => {
+        $crate::tokenize::tokenize($input)
+            .into_iter()
+            .rev()
+            .collect()
+    };
+}
+
 #[cfg(test)]
 mod tests {
-    #[macro_export]
-    macro_rules! tokenize {
-        ($input:expr) => {
-            $crate::tokenize::tokenize($input)
-                .into_iter()
-                .rev()
-                .collect()
-        };
-    }
-
     #[macro_export]
     macro_rules! test_parse {
         ($tokens:ident, $ty:ty, $value:expr) => {
