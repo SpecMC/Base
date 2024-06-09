@@ -1,5 +1,15 @@
 //! Module for tokenizing strings.
 
+#[macro_export]
+macro_rules! tokenize {
+    ($input:expr) => {
+        $crate::tokenize::tokenize($input)
+            .into_iter()
+            .rev()
+            .collect()
+    };
+}
+
 const SPECIAL_CHARS: &[&str] = &[
     " ", "\t", "\n", "\r", "==", "!=", "||", "&&", "**", "(", ")", "{", "}", "[", "]", ",", "=",
     "-", "+", ";",
