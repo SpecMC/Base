@@ -46,41 +46,39 @@ where
 /// The identifier must not be empty and can only contain letters, numbers, and underscores.
 /// The identifier must not start with a number.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct Identifier {
-    pub inner: String,
-}
+pub struct Identifier(pub String);
 impl Parse for Identifier {
     fn parse(tokens: &mut Vec<String>) -> Result<Self, ParseError> {
-        let inner: String = tokens.pop().ok_or(ParseError::EndOfFile)?;
+        let value: String = tokens.pop().ok_or(ParseError::EndOfFile)?;
 
         ensure!(
-            !inner.is_empty(),
+            !value.is_empty(),
             ParseError::InvalidToken {
-                token: inner,
+                token: value,
                 error: "Empty identifier".to_string()
             }
         );
 
-        let mut chars: std::str::Chars = inner.chars();
+        let mut chars: std::str::Chars = value.chars();
         ensure!(
             chars
                 .next()
                 .map(|c| c.is_ascii_alphabetic() || c == '_')
                 .unwrap(),
             ParseError::InvalidToken {
-                token: inner,
+                token: value,
                 error: "Identifiers must not start with a number and can only contain letters, numbers, and underscores".to_string()
             }
         );
         ensure!(
             chars.all(|c| c.is_ascii_alphanumeric() || c == '_'),
             ParseError::InvalidToken {
-                token: inner,
+                token: value,
                 error: "Identifiers can only contain letters, numbers, and underscores".to_string()
             }
         );
 
-        Ok(Identifier { inner })
+        Ok(Identifier(value))
     }
 }
 
