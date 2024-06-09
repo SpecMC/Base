@@ -23,7 +23,7 @@ macro_rules! ensure_tokens {
     };
 }
 
-#[derive(Debug, Error)]
+#[derive(Debug, Error, Clone, PartialEq, Eq)]
 pub enum ParseError {
     #[error("Unexpected EOF")]
     EndOfFile,
