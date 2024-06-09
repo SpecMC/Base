@@ -2,10 +2,9 @@
 
 const SPECIAL_CHARS: &[&str] = &[
     " ", "\t", "\n", "\r", "==", "!=", "||", "&&", "**", "(", ")", "{", "}", "[", "]", ",", "=",
-    ";",
+    "-", "+", ";",
     "\"",
-    // "-", removed to not mess with negative numbers
-    // ".", ":", "+", "*", "/", "%", "!", "&", "|", "^", "~", removed because useless
+    // ".", ":", "*", "/", "%", "!", "&", "|", "^", "~", removed because useless
 ];
 
 /// Split a string into tokens.

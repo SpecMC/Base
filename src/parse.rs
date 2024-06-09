@@ -105,18 +105,62 @@ impl Parse for Literal {
                 Ok(Literal::String(string))
             }
             token => {
-                if let Ok(int) = strtoint::strtoint(token) {
+                let mut token: String = token.to_string();
+                if let "+" | "-" = token.as_str() {
+                    token += &tokens.pop().ok_or(ParseError::EndOfFile)?;
+                }
+
+                if let Ok(int) = strtoint::strtoint(&token) {
                     Ok(Literal::Integer(int))
                 } else if let Ok(float) = token.parse::<f64>() {
                     Ok(Literal::Float(float))
                 } else {
-                    tokens.push(token.to_string());
+                    tokens.push(token.clone());
                     Err(ParseError::InvalidToken {
-                        token: token.to_string(),
+                        token: token.clone(),
                         error: "Invalid literal".to_string(),
                     })
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{test_parse, tokenize};
+
+    use super::*;
+
+    #[test]
+    fn test_identifier() {
+        let mut tokens: Vec<String> = tokenize!("cool_identifier");
+
+        test_parse!(
+            tokens,
+            Identifier,
+            Ok(Identifier("cool_identifier".to_string()))
+        );
+
+        assert!(tokens.is_empty());
+        test_parse!(tokens, Identifier, Err(ParseError::EndOfFile));
+    }
+
+    #[test]
+    fn test_literal() {
+        let mut tokens: Vec<String> = tokenize!("true false 0 +42 -5 123.0 +8.5 -11.4 \"string\"");
+
+        test_parse!(tokens, Literal, Ok(Literal::Boolean(true)));
+        test_parse!(tokens, Literal, Ok(Literal::Boolean(false)));
+        test_parse!(tokens, Literal, Ok(Literal::Integer(0)));
+        test_parse!(tokens, Literal, Ok(Literal::Integer(42)));
+        test_parse!(tokens, Literal, Ok(Literal::Integer(-5)));
+        test_parse!(tokens, Literal, Ok(Literal::Float(123.0)));
+        test_parse!(tokens, Literal, Ok(Literal::Float(8.5)));
+        test_parse!(tokens, Literal, Ok(Literal::Float(-11.4)));
+        test_parse!(tokens, Literal, Ok(Literal::String("string".to_string())));
+
+        assert!(tokens.is_empty());
+        test_parse!(tokens, Literal, Err(ParseError::EndOfFile));
     }
 }
