@@ -45,8 +45,7 @@ where
 }
 
 /// An identifier.
-/// The identifier must not be empty and can only contain letters, numbers, and underscores.
-/// The identifier must not start with a number.
+/// The identifier must not be empty or start with a number, and can only contain letters, numbers, and underscores.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Identifier(pub String);
 impl Display for Identifier {
