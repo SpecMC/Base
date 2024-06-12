@@ -1,5 +1,7 @@
 //! Module for parsing tokens.
 
+use std::fmt::Display;
+
 use thiserror::Error;
 
 use crate::ensure;
@@ -47,6 +49,11 @@ where
 /// The identifier must not start with a number.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Identifier(pub String);
+impl Display for Identifier {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 impl Parse for Identifier {
     fn parse(tokens: &mut Vec<String>) -> Result<Self, ParseError> {
         let value: String = tokens.pop().ok_or(ParseError::EndOfFile)?;
@@ -90,6 +97,17 @@ pub enum Literal {
     Integer(isize),
     Float(f64),
     String(String),
+}
+impl Display for Literal {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use Literal::*;
+        match self {
+            Boolean(value) => write!(f, "{value}"),
+            Integer(value) => write!(f, "{value}"),
+            Float(value) => write!(f, "{value}"),
+            String(value) => write!(f, "\"{value}\""),
+        }
+    }
 }
 impl Parse for Literal {
     fn parse(tokens: &mut Vec<String>) -> Result<Self, ParseError> {
